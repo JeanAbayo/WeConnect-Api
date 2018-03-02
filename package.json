@@ -4,7 +4,9 @@
   "description": "WeConnect provides a platform that brings businesses and individuals together",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "start:dev": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -17,9 +19,18 @@
   },
   "homepage": "https://github.com/JeanAbayo/WeConnect-Api#readme",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.4.2",
+    "dotenv": "^5.0.1",
     "express": "^4.16.2",
+    "express-validator": "^5.0.2",
+    "i": "^0.3.6",
+    "jsonwebtoken": "^8.1.1",
     "method-override": "~2.0.2",
-    "mongoose": "^5.0.7"
+    "mongoose": "^5.0.7",
+    "mongoose-unique-validator": "^2.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.1"
   }
 }
