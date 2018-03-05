@@ -1,37 +1,52 @@
-var express = require("express");
-var bodyParser = require("body-parser");
-
-// create express app
-var app = express();
-
+let express = require("express");
+// create express api
+let api = express();
+let morgan = require('morgan');
+let bodyParser = require("body-parser");
+let mongoose = require("mongoose");
+let expressValidator = require("express-validator");
+let port = 8080;
 // Configuring the database
-var dbConfig = require("./config/database.config.js");
-var mongoose = require("mongoose");
+let config = require("config");
 
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
+// Load environment variables
+if (process.env.NODE_ENV !== "production") {
+	require("dotenv").load();
+}
 
-// parse requests of content-type - application/json
-app.use(bodyParser.json());
-
+// DB Connection
 mongoose.Promise = global.Promise;
-
-mongoose.connect(dbConfig.url, {
-	useMongoClient: true
-});
-
-mongoose.connection.on("error", function() {
-	console.log("Could not connect to the database. Exiting now...");
-	process.exit();
-});
-
-mongoose.connection.once("open", function() {
+mongoose.connect(config.DBHost);
+let db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once("open", function() {
 	console.log("Successfully connected to the database");
 });
 
-require("./app/routes/user.routes.js")(app);
+// Don't show the log when it is a testing env
+if(config.util.getEnv('NODE_ENV') !== 'test') {
+    //use morgan to log at command line
+    api.use(morgan('combined')); //'combined' outputs the Apache style LOGs
+}
 
-// listen for requests
-app.listen(8080, function() {
-	console.log("Server is listening on port 8080");
+let user = require("./api/routes/user");
+
+// Parse requests of content-type - application/x-www-form-urlencoded
+api.use(
+	bodyParser.urlencoded({
+		extended: true
+	})
+);
+
+// Parse requests of content-type - application/json
+api.use(bodyParser.json());
+
+api.use(expressValidator());
+
+api.use("/api", user);
+// Listen for requests
+api.listen(port, function() {
+	console.log("Server is listening on port " + port);
 });
+
+module.exports = api; // For testing
