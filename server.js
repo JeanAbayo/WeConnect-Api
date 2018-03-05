@@ -1,48 +1,52 @@
-var express = require("express");
-var bodyParser = require("body-parser");
-
+let express = require("express");
 // create express api
-var api = express();
-
+let api = express();
+let morgan = require('morgan');
+let bodyParser = require("body-parser");
+let mongoose = require("mongoose");
+let expressValidator = require("express-validator");
+let port = 8080;
 // Configuring the database
-var dbConfig = require("./config/database.js");
-var mongoose = require("mongoose");
+let config = require("config");
 
 // Load environment variables
 if (process.env.NODE_ENV !== "production") {
 	require("dotenv").load();
 }
 
-// parse requests of content-type - application/x-www-form-urlencoded
+// DB Connection
+mongoose.Promise = global.Promise;
+mongoose.connect(config.DBHost);
+let db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once("open", function() {
+	console.log("Successfully connected to the database");
+});
+
+// Don't show the log when it is a testing env
+if(config.util.getEnv('NODE_ENV') !== 'testing') {
+    //use morgan to log at command line
+    api.use(morgan('combined')); //'combined' outputs the Apache style LOGs
+}
+
+let user = require("./api/routes/user");
+
+// Parse requests of content-type - application/x-www-form-urlencoded
 api.use(
 	bodyParser.urlencoded({
 		extended: true
 	})
 );
 
-// parse requests of content-type - application/json
+// Parse requests of content-type - application/json
 api.use(bodyParser.json());
 
-mongoose.Promise = global.Promise;
-
-mongoose.connect(dbConfig.url);
-
-mongoose.connection.on("error", function() {
-	console.log("Could not connect to the database. Exiting now...");
-	process.exit();
-});
-
-mongoose.connection.once("open", function() {
-	console.log("Successfully connected to the database");
-});
-
-const expressValidator = require("express-validator");
 api.use(expressValidator());
 
-const user = require("./api/routes/user");
 api.use("/api", user);
-
-// listen for requests
-api.listen(8080, function() {
-	console.log("Server is listening on port 8080");
+// Listen for requests
+api.listen(port, function() {
+	console.log("Server is listening on port " + port);
 });
+
+module.exports = api; // For testing
