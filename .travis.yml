@@ -7,6 +7,8 @@ install:
   - npm install
 before_script:
   - npm install -g gulp-cli
+services:
+  - mongodb
 cache:
   directories:
     - "node_modules"
