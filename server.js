@@ -24,7 +24,7 @@ db.once("open", function() {
 });
 
 // Don't show the log when it is a testing env
-if(config.util.getEnv('NODE_ENV') !== 'testing') {
+if(config.util.getEnv('NODE_ENV') !== 'test') {
     //use morgan to log at command line
     api.use(morgan('combined')); //'combined' outputs the Apache style LOGs
 }
