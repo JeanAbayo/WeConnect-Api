@@ -4,7 +4,7 @@
   "description": "WeConnect provides a platform that brings businesses and individuals together",
   "main": "index.js",
   "scripts": {
-    "test": "export NODE_ENV=test && mocha --exit",
+    "test": "export NODE_ENV=test && mocha --timeout 10000 --exit",
     "test-with-coverage": "nyc --reporter=text mocha --exit",
     "start": "export NODE_ENV=development && node server.js",
     "start:dev": "export NODE_ENV=development && nodemon server.js"

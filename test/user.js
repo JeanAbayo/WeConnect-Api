@@ -26,7 +26,7 @@ describe('Users', () => {
             email: "johndoe@test.com",
             password: "secret",
             confirm_password: "secret"
-        }
+        };
   describe('User registration', () => {
       it('it should register a user', (done) => {
         chai.request(api)
@@ -40,4 +40,5 @@ describe('Users', () => {
             });
       });
   });
+
 });
