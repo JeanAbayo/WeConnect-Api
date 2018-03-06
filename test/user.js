@@ -1,3 +1,4 @@
+let user = require('./utils/data.json').user;
 //During the test the env variable is set to test
 process.env.NODE_ENV = 'test';
 
@@ -19,14 +20,8 @@ describe('Users', () => {
         });     
     });
 /*
-  * Test user registration
-  */
- let user = {
-            username: "JohnDoe",
-            email: "johndoe@test.com",
-            password: "secret",
-            confirm_password: "secret"
-        };
+* Test user registration
+*/
   describe('User registration', () => {
       it('it should register a user', (done) => {
         chai.request(api)
