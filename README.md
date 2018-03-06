@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/JeanAbayo/WeConnect-Api.svg?branch=master)](https://travis-ci.org/JeanAbayo/WeConnect-Api)
+
 # WeConnect-Api
 
 WeConnect provides a platform that brings businesses and individuals together.
