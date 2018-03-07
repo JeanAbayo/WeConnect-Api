@@ -64,10 +64,4 @@ exports.login = function(req, res) {
 			res.status(200).json({ auth: true, token: token });
 		}
 	});
-	validPassword = password => {
-		const hash = crypto
-			.pbkdf2Sync(password, salt, 10000, 512, "sha512")
-			.toString("hex");
-		return hash === hash;
-	};
 };
