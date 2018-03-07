@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
-const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET;
 
@@ -22,8 +21,7 @@ const UserSchema = mongoose.Schema(
 			match: [/\S+@\S+\.\S+/, "is invalid"],
 			index: true
 		},
-		hash: String,
-		salt: String
+		password: String
 	},
 	{
 		timestamps: true
@@ -35,13 +33,6 @@ UserSchema.methods.setPassword = function(password) {
 	this.hash = crypto
 		.pbkdf2Sync(password, this.salt, 10000, 512, "sha512")
 		.toString("hex");
-};
-
-UserSchema.methods.validPassword = function(password) {
-	var hash = crypto
-		.pbkdf2Sync(password, this.salt, 10000, 512, "sha512")
-		.toString("hex");
-	return this.hash === hash;
 };
 
 UserSchema.methods.generateJWT = function() {

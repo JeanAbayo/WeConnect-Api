@@ -49,7 +49,7 @@ const v1 = express.Router();
 
 v1.use(user);
 
-api.use("/v1/api", v1);
+api.use("/api/v1/", v1);
 
 api.use("/", v1);
 
