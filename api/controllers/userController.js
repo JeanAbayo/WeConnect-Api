@@ -24,25 +24,17 @@ exports.register = function(req, res) {
 			payload: errors.confirm_password.msg
 		});
 	} else {
-		// Compose our salt to encrypt our password
-		const salt = crypto.randomBytes(16).toString("hex");
-		setPassword = password => {
-			hash = crypto
-				.pbkdf2Sync(password, salt, 10000, 512, "sha512")
-				.toString("hex");
-			return hash;
-		};
-		newUser.password = setPassword(password);
-		newUser.salt = salt;
+		// Use bcrypt to hash our password
+		const hashedPassword = bcrypt.hashSync(password, 8);
+		newUser.password = hashedPassword;
 		newUser.save(function(err) {
 			if (err) {
 				return res.status(422).json({
 					payload: err.message
 				});
 			} else {
-				// Remove password and salt from data returned to the client
+				// Remove password from data returned to the client
 				newUser.password = undefined;
-				newUser.salt = undefined;
 				// Return to client success registration response
 				return res.status(201).json({
 					message: "User account created successfuly",
