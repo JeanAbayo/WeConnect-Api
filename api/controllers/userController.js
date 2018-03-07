@@ -1,5 +1,7 @@
-let User = require("../models/User.js");
 let bcrypt = require('bcryptjs');
+let jwt = require("jsonwebtoken");
+let User = require("../models/User.js");
+const secret = process.env.JWT_SECRET;
 
 exports.register = function(req, res) {
 	// User registration
@@ -13,7 +15,7 @@ exports.register = function(req, res) {
 		email
 	});
 
-	// Check password are not equal
+	// Check passwords do match
 	req
 		.assert("confirm_password", "Passwords do not match")
 		.equals(req.body.password);
@@ -37,7 +39,7 @@ exports.register = function(req, res) {
 				newUser.password = undefined;
 				// Return to client success registration response
 				return res.status(201).json({
-					message: "User account created successfuly",
+					message: "Your account was created successfuly",
 					payload:  JSON.parse(JSON.stringify(newUser)) 
 				});
 			}
@@ -48,20 +50,41 @@ exports.register = function(req, res) {
 exports.login = function(req, res) {
 	const email = req.body.email;
 	const password = req.body.password;
-	User.findOne({ email: email }, function (err, user) {
-		if (err) {
-			return res.status(500).json('Error on the server.');
-		}
-		else if (!user){
-			return res.status(404).json('No user found.');
-		}
-		else{
-			const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
-			if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
-			const token = jwt.sign({ id: user._id }, config.secret, {
-				expiresIn: 86400 // expires in 24 hours
-			});
-			res.status(200).json({ auth: true, token: token });
-		}
-	});
+	// Validate login params
+    req.checkBody('email', 'Invalid email').notEmpty().isEmail();
+    req.checkBody('password', 'Password is required').notEmpty();
+	let errors = req.validationErrors(true);
+	if (errors) {
+		return res.status(422).json({
+			payload: errors
+		});
+	} else {
+		// Find the user using email and authenticate
+		User.findOne({ email: email }, function (err, user) {
+			if (err) {
+				return res.status(500).json(
+					{message: err}
+				);
+			} else if (!user) {
+				return res.status(422).json({
+					message: 'User does not exist, check your email input'
+				});
+			} else {
+				// Compare provided password and user password
+				const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+				if (!passwordIsValid) {
+					return res.status(422).send({ message: "Your password is invalid" });
+				}
+				const token = jwt.sign({ id: user._id }, secret, {
+					expiresIn: 86400 // expires in 24 hours
+				});
+				user.password = undefined;
+				res.status(200).json({
+					message: "You have successfuly logged in",
+					token: token,
+					payload: JSON.parse(JSON.stringify(user))
+				});
+			}
+		});
+	}
 };

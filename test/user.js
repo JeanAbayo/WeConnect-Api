@@ -32,7 +32,7 @@ describe('Users', () => {
                 res.should.have.status(201);
                 res.body.should.be.a('object');
                 res.body.should.have.property('message')
-                .eql('User account created successfuly');
+                .eql('Your account was created successfuly');
               done();
             });
       });
@@ -44,7 +44,7 @@ describe('Users', () => {
     it('it should authenticate a user successfuly', (done) => {
       chai.request(api)
         .post('/auth/login')
-        .send({email: "John Doe", password: "secret"})
+        .send({email: "johndoe@test.com", password: "secret"})
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
