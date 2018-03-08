@@ -3,30 +3,34 @@ const uniqueValidator = require("mongoose-unique-validator");
 const jwt = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET;
 
-const UserSchema = mongoose.Schema(
+const BusinessSchema = mongoose.Schema(
 	{
-		username: {
+		name: {
 			type: String,
 			lowercase: true,
 			unique: true,
 			required: [true, "can't be blank"],
-			match: [/^[a-zA-Z0-9]+$/, "is invalid"],
 			index: true
 		},
-		email: {
+		category: {
 			type: String,
 			lowercase: true,
-			unique: true,
 			required: [true, "can't be blank"],
-			match: [/\S+@\S+\.\S+/, "is invalid"],
 			index: true
 		},
-		password: String
+		description: {
+			type: String,
+			lowercase: true,
+			required: [true, "can't be blank"],
+			index: true
+		},
+		location: String,
+		profile: String
 	},
 	{
 		timestamps: true
 	}
 );
 
-UserSchema.plugin(uniqueValidator, { message: "is already taken." });
-module.exports = mongoose.model("User", UserSchema);
+BusinessSchema.plugin(uniqueValidator, { message: "is already taken." });
+module.exports = mongoose.model("Business", UserSchema);
