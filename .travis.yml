@@ -5,11 +5,14 @@ node_js:
   - "8"
 install:
   - npm install
+before_script:
+  - npm install -g jshint
 services:
   - mongodb
 cache:
   directories:
     - "node_modules"
 script:
+  - jshint .
   - npm test
   - npm run test-with-coverage

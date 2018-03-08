@@ -45,7 +45,14 @@ api.use(bodyParser.json());
 
 api.use(expressValidator());
 
-api.use("/api", user);
+const v1 = express.Router();
+
+v1.use(user);
+
+api.use("/api/v1/", v1);
+
+api.use("/", v1);
+
 // Listen for requests
 api.listen(port, function() {
 	console.log("Server is listening on port " + port);
