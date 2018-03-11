@@ -1,8 +1,8 @@
 {
-	"user": {
-		"username": "JohnDoe",
-		"email": "johndoe@test.com",
-		"password": "secret",
-		"confirm_password": "secret"
-	}
+  "user": {
+    "username": "JohnDoe",
+    "email": "johndoe@test.com",
+    "password": "secret",
+    "confirm_password": "secret"
+  }
 }
