@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
-const jwt = require("jsonwebtoken");
-const secret = process.env.JWT_SECRET;
 
 const UserSchema = mongoose.Schema(
   {

@@ -1,3 +1,3 @@
 {
-  "DBHost": "mongodb://localhost:27017/We_Connect"
+  "DBHost": "mongodb://localhost:27017/We_Connect_Test"
 }
