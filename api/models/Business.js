@@ -33,4 +33,4 @@ const BusinessSchema = mongoose.Schema(
 );
 
 BusinessSchema.plugin(uniqueValidator, { message: "is already taken." });
-module.exports = mongoose.model("Business", UserSchema);
+module.exports = mongoose.model("Business", BusinessSchema);
