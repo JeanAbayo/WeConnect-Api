@@ -4,5 +4,11 @@
     "email": "john@test.com",
     "password": "secret",
     "confirm_password": "secret"
+  },
+  "user1": {
+    "username": "JohnOlive",
+    "email": "olive@test.com",
+    "password": "secret",
+    "confirm_password": "secret"
   }
 }
