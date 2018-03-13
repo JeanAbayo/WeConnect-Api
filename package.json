@@ -32,7 +32,6 @@
     "mongoose": "^5.0.7",
     "mongoose-unique-validator": "^2.0.0",
     "morgan": "^1.9.0",
-    "node-mongodb-fixtures": "^1.5.4",
     "sinon": "^4.4.2",
     "sinon-mongoose": "^2.0.2"
   },
