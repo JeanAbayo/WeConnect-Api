@@ -43,7 +43,22 @@ describe("Users", () => {
   /*
   * Test user can authenticate
   */
-  describe("User can authenticate", () => {
+  describe("User Authentication", () => {
+      it("it should authenticate successfully", done => {
+        chai
+          .request(api)
+          .post("/auth/login")
+          .send({johndoe@test.com})
+          .end((err, res) => {
+            res.should.have.status(422);
+            res.body.should.be.a("object");
+            res.body.should.have
+              .property("message")
+              .eql("User does not exist, check your email input");
+            done();
+          });
+      });
+
     it("it should not authenticate invalid data", done => {
       chai
         .request(api)

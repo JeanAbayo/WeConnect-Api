@@ -1,7 +1,7 @@
 {
   "user": {
-    "username": "JohnDoe",
-    "email": "johndoe@test.com",
+    "username": "JohnPeter",
+    "email": "john@test.com",
     "password": "secret",
     "confirm_password": "secret"
   }

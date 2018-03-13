@@ -7,7 +7,6 @@ let morgan = require("morgan");
 let bodyParser = require("body-parser");
 let mongoose = require("mongoose");
 let expressValidator = require("express-validator");
-let port = 8080;
 // Configuring the database
 let config = require("config");
 
@@ -54,8 +53,13 @@ api.use("/api/v1/", v1);
 api.use("/", v1);
 
 // Listen for requests
-api.listen(port, function() {
-  console.log("Server is listening on port " + port);
-});
+// api.listen(port, function() {
+//   console.log("Server is listening on port " + port);
+// });
+let port = process.env.PORT || (process.argv[2] || 8080);
+port = (typeof port === "number") ? port : 3000;
 
+if(!module.parent){ api.listen(port); }
+
+console.log("Application started. Listening on port:" + port);
 module.exports = api; // For testing
