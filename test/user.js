@@ -1,6 +1,3 @@
-//During the test the env variable is set to test
-process.env.NODE_ENV = "test";
-
 let mongoose = require("mongoose");
 let User = require("../api/models/User");
 
@@ -10,6 +7,7 @@ let chaiHttp = require("chai-http");
 let request = require("supertest");
 let api = require("../server");
 let should = chai.should();
+
 let user = require("./utils/data.json").user;
 let user1 = require("./utils/data.json").user1;
 chai.use(chaiHttp);
@@ -17,7 +15,6 @@ chai.use(chaiHttp);
 //Our parent block
 describe("Users", () => {
   before(function(done) {
-
     // Clear users before testing
     User.remove().exec();
 
@@ -30,7 +27,7 @@ describe("Users", () => {
           throw err;
         }
         res.status.should.be.equal(201);
-        res.body.payload._id.should.exist;
+        res.body.payload.should.have.property("_id");
         authUser = request.agent(api); //authUser will be used in all subsequent tests since he's supposed to be authenticated
         authUser
           .post("/auth/login")
@@ -40,8 +37,8 @@ describe("Users", () => {
             // user1 will manage its own cookies
             // res.redirects contains an Array of redirects
             res.status.should.be.equal(200);
-            res.body.token.should.exist;
-            res.body.payload._id.should.exist;
+            res.body.should.have.property("token");
+            res.body.payload.should.have.property("_id");
             done();
           });
       });
@@ -74,7 +71,7 @@ describe("Users", () => {
       chai
         .request(api)
         .post("/auth/login")
-        .send({ email: user.email, password: user.password})
+        .send({ email: user.email, password: user.password })
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a("object");
@@ -85,19 +82,19 @@ describe("Users", () => {
         });
     });
 
-      it("it should not authenticate invalid data", done => {
-        chai
-          .request(api)
-          .post("/auth/login")
-          .send({ email: "fakeuser@test.com", password: "fake" })
-          .end((err, res) => {
-            res.should.have.status(422);
-            res.body.should.be.a("object");
-            res.body.should.have
-              .property("message")
-              .eql("User does not exist, check your email input");
-            done();
-          });
-      });
+    it("it should not authenticate invalid data", done => {
+      chai
+        .request(api)
+        .post("/auth/login")
+        .send({ email: "fakeuser@test.com", password: "fake" })
+        .end((err, res) => {
+          res.should.have.status(422);
+          res.body.should.be.a("object");
+          res.body.should.have
+            .property("message")
+            .eql("User does not exist, check your email input");
+          done();
+        });
+    });
   });
 });
