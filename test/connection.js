@@ -25,3 +25,8 @@ before(function(done) {
     .catch(e => console.error(e))
     .finally(() => fixtures.disconnect());
 });
+after(function(done) {
+  mongoose.connection.collections.users.drop(function() {
+    done();
+  });
+});
