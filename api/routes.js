@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 // Require controller modules.
-const UserController = require("../controllers/userController.js");
-const BusinessController = require("../controllers/businessController.js");
+const UserController = require("./controllers/userController.js");
+const BusinessController = require("./controllers/businessController.js");
 
 /// USER ROUTES ///
 
@@ -16,6 +16,6 @@ router.post("/auth/login", UserController.login);
 /// BUSINESS ROUTES ///
 
 // Register a business
-router.post("/business", BusinessController.register);
+router.post("/businesses", BusinessController.register);
 
 module.exports = router;

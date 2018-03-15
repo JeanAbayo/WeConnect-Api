@@ -30,7 +30,7 @@ if (config.util.getEnv("NODE_ENV") !== "test") {
   api.use(morgan("combined")); //'combined' outputs the Apache style LOGs
 }
 
-let user = require("./api/routes/user");
+let routes = require("./api/routes");
 
 // Parse requests of content-type - application/x-www-form-urlencoded
 api.use(
@@ -46,7 +46,7 @@ api.use(expressValidator());
 
 const v1 = express.Router();
 
-v1.use(user);
+v1.use(routes);
 
 api.use("/api/v1/", v1);
 
