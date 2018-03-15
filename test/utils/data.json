@@ -10,5 +10,12 @@
     "email": "olive@test.com",
     "password": "secret",
     "confirm_password": "secret"
+  },
+  "business": {
+    "name": "Just Chil",
+    "category": "Resto",
+    "description": "Finger Lickin'",
+    "location": "Kigali",
+    "profile": "image.jgp"
   }
 }

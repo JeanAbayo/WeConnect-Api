@@ -97,9 +97,9 @@ describe("Users", () => {
         });
     });
   });
+  //run once after all tests
   after(function(done) {
-    mongoose.connection.collections.users.drop(function() {
-      done();
-    });
+    console.log("Deleting test database");
+    mongoose.connection.db.dropDatabase(done);
   });
 });

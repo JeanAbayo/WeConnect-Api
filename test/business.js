@@ -64,7 +64,7 @@ describe("Users", () => {
           res.body.should.be.a("object");
           res.body.should.have
             .property("message")
-            .eql("Your business was created successfuly");
+            .eql("Your business was registered successfuly");
           done();
         });
     });
