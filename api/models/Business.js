@@ -3,7 +3,9 @@ const uniqueValidator = require("mongoose-unique-validator");
 const jwt = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET;
 
-const BusinessSchema = mongoose.Schema(
+const Schema = mongoose.Schema;
+
+const BusinessSchema = Schema(
   {
     owner: { type: Schema.Types.ObjectId, ref: 'User' },
     name: {
