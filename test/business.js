@@ -21,9 +21,6 @@ chai.use(chaiHttp);
 //Our parent block
 describe("Users", () => {
   before(function(done) {
-    // Clear users before testing
-    User.remove().exec();
-
     request(api)
       .post("/auth/register")
       .send(user)
