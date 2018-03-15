@@ -34,7 +34,7 @@ describe("Users", () => {
           .send({ email: user.email, password: user.password })
           .end(function(err, res) {
             if (err) throw err;
-            // user1 will manage its own cookies
+            // authUser will manage its own cookies
             // res.redirects contains an Array of redirects
             res.status.should.be.equal(200);
             res.body.should.have.property("token");

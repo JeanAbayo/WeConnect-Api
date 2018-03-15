@@ -5,6 +5,7 @@ const secret = process.env.JWT_SECRET;
 
 const BusinessSchema = mongoose.Schema(
   {
+    owner: { type: Schema.Types.ObjectId, ref: 'User' },
     name: {
       type: String,
       lowercase: true,
