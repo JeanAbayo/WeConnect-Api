@@ -41,6 +41,7 @@ describe("Users", () => {
             // res.redirects contains an Array of redirects
             res.status.should.be.equal(200);
             res.body.should.have.property("token");
+            this.token = res.body.token;
             res.body.payload.should.have.property("_id");
             done();
           });
